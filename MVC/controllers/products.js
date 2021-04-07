@@ -6,35 +6,28 @@ const ObjectId = mongodb.ObjectId;
 
 exports.getIndex = (req, res, next) => {
   Product.fetchAll()
-    .then(products => {
-      res.render("products/index",{
+    .then((products) => {
+      res.render("products/index", {
         pageTitle: "Product",
         prods: products,
-
       });
-
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-
     });
-
-}
+};
 exports.getSearchProduct = (req, res, next) => {
-
   Product.fetchAll()
-    .then(products => {
-      res.render('products/index', {
-        pageTitle: 'Serach Product',
+    .then((products) => {
+      res.render("products/search", {
+        pageTitle: "Serach Product",
         prods: products,
-
       });
-
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
-}
+};
 
 exports.getAddProduct = (req, res, next) => {
   const photo = "";
@@ -92,27 +85,34 @@ exports.postAddProduct = (req, res, next) => {
     });
 };
 
-
-
-
-
 exports.getUpdateProduct = (req, res, next) => {
   console.log(req.params);
   const { product_id } = req.params;
   let product_name = "";
   let price = "";
-
+  let _photo = "";
+  let detail = "";
+  let catagory = "";
+  let total = "";
   Product.findById(product_id)
     .then((product) => {
       console.log(product);
       product_name = product.product_name;
       price = product.price;
+      _photo = product._photo;
+      detail = product.detail;
+      catagory = product.catagory;
+      total = product.total;
       res.render("products/update", {
         pageTitle: "Update Product",
         errorMessage: null,
         product_id: product_id,
         product_name: product_name,
+        catagory: catagory,
         price: price,
+        _photo: _photo,
+        detail: detail,
+        total: total,
       });
     })
     .catch((err) => console.log(err));
